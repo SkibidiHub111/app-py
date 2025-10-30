@@ -1,20 +1,18 @@
 import requests
 
 def handler(request):
-    
     url = "https://raw.githubusercontent.com/SkibidiHub111/Ghoul/refs/heads/main/Ghoul"
-
     try:
-        response = requests.get(url)
-        if response.status_code == 200:
-            lua_code = response.text
+        r = requests.get(url)
+        if r.status_code == 200:
+            code = r.text
         else:
-            lua_code = f"Error: Không thể tải file Lua (status {response.status_code})"
+            code = f"Error loading file: HTTP {r.status_code}"
     except Exception as e:
-        lua_code = f"Error: {str(e)}"
+        code = f"Error: {e}"
 
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "text/plain"},
-        "body": lua_code
+        "body": code
     }
